@@ -1,0 +1,25 @@
+{
+  "name": "Aurelia — Daily Affirmations",
+  "short_name": "Aurelia",
+  "description": "A daily affirmation ritual: personalised affirmations, breathwork, aligned actions and a Tree of Life that grows with your practice.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#061210",
+  "theme_color": "#061210",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
