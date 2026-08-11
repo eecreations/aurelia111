@@ -1,0 +1,11 @@
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.profiles TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.favorites TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.voice_affirmations TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.user_preferences TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.daily_checkins TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.gratitude_entries TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.journal_entries TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.custom_affirmations TO authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.path_progress TO authenticated;
+GRANT SELECT, INSERT ON public.growth_events TO authenticated;
+GRANT ALL ON public.profiles, public.favorites, public.voice_affirmations, public.user_preferences, public.daily_checkins, public.gratitude_entries, public.journal_entries, public.custom_affirmations, public.path_progress, public.growth_events TO service_role;
