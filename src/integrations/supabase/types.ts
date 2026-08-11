@@ -14,7 +14,333 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      custom_affirmations: {
+        Row: {
+          action: string
+          affirmation: string
+          category: string
+          created_at: string
+          id: string
+          in_rotation: boolean
+          reflection: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action?: string
+          affirmation: string
+          category?: string
+          created_at?: string
+          id?: string
+          in_rotation?: boolean
+          reflection?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          affirmation?: string
+          category?: string
+          created_at?: string
+          id?: string
+          in_rotation?: boolean
+          reflection?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      daily_checkins: {
+        Row: {
+          action_status: string
+          affirmation_day: number | null
+          created_at: string
+          energy: number | null
+          entry_date: string
+          id: string
+          mood: number | null
+          ritual_seconds: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          action_status?: string
+          affirmation_day?: number | null
+          created_at?: string
+          energy?: number | null
+          entry_date?: string
+          id?: string
+          mood?: number | null
+          ritual_seconds?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          action_status?: string
+          affirmation_day?: number | null
+          created_at?: string
+          energy?: number | null
+          entry_date?: string
+          id?: string
+          mood?: number | null
+          ritual_seconds?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      favorites: {
+        Row: {
+          created_at: string
+          day: number
+          id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          day: number
+          id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          day?: number
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      gratitude_entries: {
+        Row: {
+          content: string
+          created_at: string
+          entry_date: string
+          id: string
+          position: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          entry_date?: string
+          id?: string
+          position?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          entry_date?: string
+          id?: string
+          position?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      growth_events: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          points: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          points?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          points?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      journal_entries: {
+        Row: {
+          affirmation_day: number | null
+          body: string
+          created_at: string
+          entry_date: string
+          id: string
+          mood_tag: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          affirmation_day?: number | null
+          body?: string
+          created_at?: string
+          entry_date?: string
+          id?: string
+          mood_tag?: string | null
+          title?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          affirmation_day?: number | null
+          body?: string
+          created_at?: string
+          entry_date?: string
+          id?: string
+          mood_tag?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      path_progress: {
+        Row: {
+          completed_at: string
+          created_at: string
+          id: string
+          step: number
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string
+          created_at?: string
+          id?: string
+          step: number
+          user_id: string
+        }
+        Update: {
+          completed_at?: string
+          created_at?: string
+          id?: string
+          step?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          journey_start: string
+          onboarding_complete: boolean
+          reminder_enabled: boolean
+          reminder_repeat: number
+          reminder_time: string
+          reminder_times: string[]
+          reminder_voice: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+          journey_start?: string
+          onboarding_complete?: boolean
+          reminder_enabled?: boolean
+          reminder_repeat?: number
+          reminder_time?: string
+          reminder_times?: string[]
+          reminder_voice?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          journey_start?: string
+          onboarding_complete?: boolean
+          reminder_enabled?: boolean
+          reminder_repeat?: number
+          reminder_time?: string
+          reminder_times?: string[]
+          reminder_voice?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          focus_areas: string[]
+          haptics_enabled: boolean
+          high_contrast: boolean
+          reduced_motion: boolean
+          text_size: string
+          tone: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          focus_areas?: string[]
+          haptics_enabled?: boolean
+          high_contrast?: boolean
+          reduced_motion?: boolean
+          text_size?: string
+          tone?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          focus_areas?: string[]
+          haptics_enabled?: boolean
+          high_contrast?: boolean
+          reduced_motion?: boolean
+          text_size?: string
+          tone?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      voice_affirmations: {
+        Row: {
+          created_at: string
+          duration_seconds: number
+          id: string
+          storage_path: string
+          title: string
+          transcript: string | null
+          transcript_status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          duration_seconds?: number
+          id?: string
+          storage_path: string
+          title?: string
+          transcript?: string | null
+          transcript_status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          duration_seconds?: number
+          id?: string
+          storage_path?: string
+          title?: string
+          transcript?: string | null
+          transcript_status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
