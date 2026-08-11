@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Export options for a TestFlight / App Store upload.
+
+    xcodebuild -exportArchive \
+      -archivePath build/Aurelia.xcarchive \
+      -exportOptionsPlist ios-template/ExportOptions.plist \
+      -exportPath build/ipa
+
+  Replace TEAMID with your Apple Developer team identifier.
+-->
+<plist version="1.0">
+<dict>
+  <key>method</key>
+  <string>app-store-connect</string>
+  <key>teamID</key>
+  <string>TEAMID</string>
+  <key>uploadSymbols</key>
+  <true/>
+  <key>uploadBitcode</key>
+  <false/>
+  <key>stripSwiftSymbols</key>
+  <true/>
+  <key>destination</key>
+  <string>export</string>
+  <key>signingStyle</key>
+  <string>automatic</string>
+</dict>
+</plist>

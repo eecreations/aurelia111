@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Keys to merge into ios/App/App/Info.plist after `bunx cap add ios`.
+  The native project is generated locally and not committed, so this file is
+  the checked-in source of truth for the App Store required Info.plist entries.
+-->
+<plist version="1.0">
+<dict>
+  <!-- Aurelia records spoken affirmations in the "My Voice" screen. -->
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Aurelia uses your microphone so you can record your affirmations in your own voice. Recordings stay private to your account.</string>
+
+  <!-- Saving affirmation cards / wallpapers to the photo library. -->
+  <key>NSPhotoLibraryAddUsageDescription</key>
+  <string>Aurelia saves the affirmation cards and wallpapers you create to your photo library.</string>
+
+  <!-- Skips the export-compliance questionnaire on every upload: the app only
+       uses standard HTTPS/system encryption. -->
+  <key>ITSAppUsesNonExemptEncryption</key>
+  <false/>
+
+  <!-- Portrait-only, matching the iPhone-first layouts. -->
+  <key>UISupportedInterfaceOrientations</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+  </array>
+  <key>UISupportedInterfaceOrientations~ipad</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+    <string>UIInterfaceOrientationPortraitUpsideDown</string>
+  </array>
+
+  <!-- Dark, full-bleed shell. -->
+  <key>UIUserInterfaceStyle</key>
+  <string>Dark</string>
+  <key>UIViewControllerBasedStatusBarAppearance</key>
+  <false/>
+  <key>UIStatusBarStyle</key>
+  <string>UIStatusBarStyleLightContent</string>
+  <key>UIRequiresFullScreen</key>
+  <true/>
+</dict>
+</plist>
