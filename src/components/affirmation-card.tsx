@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Ornament } from "@/components/silk";
 import type { Affirmation } from "@/data/affirmations";
@@ -20,7 +20,10 @@ export function AffirmationCard({
   canFavorite,
   onToggleFavorite,
 }: Props) {
-  const today = useTodayKey();
+  const todayValue = useTodayKey();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const today = mounted ? todayValue : null;
   const [sharing, setSharing] = useState(false);
   const [wallpapering, setWallpapering] = useState(false);
 
