@@ -2,7 +2,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Ornament } from "@/components/silk";
 import type { Affirmation } from "@/data/affirmations";
-import { prettyDate, todayKey } from "@/lib/dates";
+import { prettyDate } from "@/lib/dates";
+import { useTodayKey } from "@/hooks/use-today";
 import { downloadShareCard, saveWallpaper } from "@/lib/share-card";
 
 
@@ -19,6 +20,7 @@ export function AffirmationCard({
   canFavorite,
   onToggleFavorite,
 }: Props) {
+  const today = useTodayKey();
   const [sharing, setSharing] = useState(false);
   const [wallpapering, setWallpapering] = useState(false);
 

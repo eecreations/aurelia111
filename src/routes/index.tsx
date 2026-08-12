@@ -48,7 +48,7 @@ function TodayPage() {
     if (pillar === defaultPillar) return defaultEntry;
     const matches = affirmations.filter((item) => pillarForAffirmation(item) === pillar);
     if (matches.length === 0) return defaultEntry;
-    return matches[(day - 1) % matches.length]!;
+    return { ...matches[(day - 1) % matches.length]!, source: "library" as const };
   }, [day, defaultEntry, defaultPillar, pillar]);
 
   const isFavorite = (favorites ?? []).includes(entry.day);
