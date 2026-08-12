@@ -22,11 +22,11 @@ export function buildAdaptiveRitual({
   action,
   date = new Date(),
 }: {
-  mood?: number | null;
-  energy?: number | null;
+  mood?: number | null | undefined;
+  energy?: number | null | undefined;
   affirmation: string;
   action: string;
-  date?: Date;
+  date?: Date | undefined;
 }): AdaptiveRitualPlan {
   const moment = currentMoment(date);
   const lowEnergy = typeof energy === "number" && energy <= 2;
