@@ -58,8 +58,8 @@ export function AffirmationCard({
   return (
     <div className="flex w-full flex-1 flex-col items-center">
       <div className="animate-silk space-y-2 text-center">
-        <span className="block text-[10px] font-medium uppercase tracking-[0.3em] text-gold/80">
-          {prettyDate(todayKey())}
+        <span className="block min-h-[1em] text-[10px] font-medium uppercase tracking-[0.3em] text-gold/80">
+          {today ? prettyDate(today) : ""}
         </span>
         <span className="block text-[10px] font-medium uppercase tracking-[0.3em] text-gold/60">
           {entry.category}
