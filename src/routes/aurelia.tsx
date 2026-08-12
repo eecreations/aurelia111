@@ -4,6 +4,8 @@ import { toast } from "sonner";
 import { BottomNav } from "@/components/bottom-nav";
 import { Ornament, SilkBackdrop } from "@/components/silk";
 import { useAuth } from "@/hooks/useAuth";
+import { useAllCheckins, useGratitudeCount } from "@/lib/tracking";
+import { useJournalEntries } from "@/lib/journal";
 import { usePreferences } from "@/lib/preferences";
 
 export const Route = createFileRoute("/aurelia")({
@@ -43,6 +45,9 @@ const OPENERS = [
 function AureliaPage() {
   const { user } = useAuth();
   const { data: prefs } = usePreferences(user?.id);
+  const { data: checkins } = useAllCheckins(user?.id);
+  const { data: journal } = useJournalEntries(user?.id);
+  const { data: gratitudeCount } = useGratitudeCount(user?.id);
   const name = prefs?.display_name?.trim().split(" ")[0];
 
   const [turns, setTurns] = useState<Turn[]>([
@@ -57,12 +62,17 @@ function AureliaPage() {
   const [thinking, setThinking] = useState(false);
   const [speakAloud, setSpeakAloud] = useState(true);
   const [speakingIndex, setSpeakingIndex] = useState<number | null>(null);
+  const [personalized, setPersonalized] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [turns, thinking]);
+
+  useEffect(() => {
+    try { setPersonalized(localStorage.getItem("aurelia-ai-personalized") === "true"); } catch { /* private browsing */ }
+  }, []);
 
   useEffect(
     () => () => {
@@ -113,7 +123,29 @@ function AureliaPage() {
       const response = await fetch("/api/aurelia", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: next }),
+        body: JSON.stringify({
+          messages: next,
+          context: personalized
+            ? {
+                focusAreas: prefs?.focus_areas ?? [],
+                tone: prefs?.tone ?? "gentle",
+                recentCheckins: (checkins ?? []).slice(0, 7).map((item) => ({
+                  date: item.entry_date,
+                  mood: item.mood,
+                  energy: item.energy,
+                  actionStatus: item.action_status,
+                  ritualSeconds: item.ritual_seconds,
+                })),
+                recentJournal: (journal ?? []).slice(0, 5).map((item) => ({
+                  date: item.entry_date,
+                  title: item.title,
+                  moodTag: item.mood_tag,
+                  excerpt: item.body.slice(0, 220),
+                })),
+                gratitudeCount: gratitudeCount ?? 0,
+              }
+            : undefined,
+        }),
       });
       const data = (await response.json()) as { reply?: string; error?: string };
       if (!response.ok || !data.reply) throw new Error(data.error ?? "Aurelia is quiet.");
@@ -155,6 +187,23 @@ function AureliaPage() {
             <span className="h-1.5 w-1.5 rotate-45 bg-current" />
             {speakAloud ? "Voice on" : "Voice off"}
           </button>
+          <button
+            type="button"
+            aria-pressed={personalized}
+            onClick={() => {
+              const next = !personalized;
+              setPersonalized(next);
+              try { localStorage.setItem("aurelia-ai-personalized", String(next)); } catch { /* private browsing */ }
+            }}
+            className={`ml-2 mt-5 inline-flex min-h-9 items-center gap-2 rounded-full border px-4 text-[10px] uppercase tracking-[0.16em] transition-colors ${
+              personalized ? "border-gold bg-gold/15 text-gold" : "border-gold/20 text-ivory/50 hover:bg-gold/10"
+            }`}
+          >
+            {personalized ? "Personal context on" : "Personal context off"}
+          </button>
+          <p className="mx-auto mt-3 max-w-md text-[10px] leading-relaxed text-ivory/40">
+            When on, Aurelia may use your recent check-ins, journal excerpts and focus areas for this conversation. Turn it off anytime.
+          </p>
         </header>
 
         <div
