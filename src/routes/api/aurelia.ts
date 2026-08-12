@@ -46,7 +46,7 @@ export const Route = createFileRoute("/api/aurelia")({
         const key = process.env["LOVABLE_API_KEY"];
         if (!key) return Response.json({ error: "AI is not configured." }, { status: 500 });
 
-        const body = (await request.json()) as { messages?: Turn[] };
+        const body = (await request.json()) as { messages?: Turn[]; context?: unknown };
         const messages = (body.messages ?? [])
           .filter((turn) => typeof turn?.content === "string" && turn.content.trim())
           .slice(-16);
@@ -62,7 +62,12 @@ export const Route = createFileRoute("/api/aurelia")({
           },
           body: JSON.stringify({
             model: "openai/gpt-5.6-sol",
-            instructions: SYSTEM_PROMPT,
+            instructions: body.context
+              ? `${SYSTEM_PROMPT}
+
+The user explicitly enabled personal context for this request. Use it only when relevant, never recite private details back unnecessarily, and do not infer diagnoses. Personal context:
+${JSON.stringify(body.context).slice(0, 7000)}`
+              : SYSTEM_PROMPT,
             input: messages.map((turn) => ({ role: turn.role, content: turn.content })),
           }),
         });

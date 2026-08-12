@@ -21,7 +21,7 @@ interface CardOptions {
   lineHeight: number;
 }
 
-const SHARE: CardOptions = {
+const STORY: CardOptions = {
   width: 1080,
   height: 1920,
   focus: 0.5,
@@ -30,6 +30,14 @@ const SHARE: CardOptions = {
 };
 
 /** Lock screens keep the top third for the clock, so the text sits lower. */
+const SQUARE: CardOptions = {
+  width: 1080,
+  height: 1080,
+  focus: 0.5,
+  fontSize: 62,
+  lineHeight: 80,
+};
+
 const WALLPAPER: CardOptions = {
   width: 1290,
   height: 2796,
@@ -149,7 +157,7 @@ function nameFor(input: CardInput, kind: string) {
 
 /** Renders the affirmation onto a 1080x1920 obsidian-and-gold card and downloads it. */
 export async function downloadShareCard(input: CardInput) {
-  download(await renderCard(input, SHARE), nameFor(input, "card"));
+  download(await renderCard(input, STORY), nameFor(input, "story"));
 }
 
 /**
@@ -175,6 +183,27 @@ export async function saveWallpaper(input: CardInput) {
     }
   }
 
+  download(blob, filename);
+  return "downloaded" as const;
+}
+
+
+export async function downloadSquareCard(input: CardInput) {
+  download(await renderCard(input, SQUARE), nameFor(input, "square"));
+}
+
+export async function shareSocialCard(input: CardInput, format: "story" | "square" = "story") {
+  const blob = await renderCard(input, format === "square" ? SQUARE : STORY);
+  const filename = nameFor(input, format);
+  const file = new File([blob], filename, { type: "image/png" });
+  if (typeof navigator !== "undefined" && navigator.canShare?.({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file], title: "Aurelia affirmation", text: input.affirmation });
+      return "shared" as const;
+    } catch (error) {
+      if ((error as DOMException)?.name === "AbortError") return "cancelled" as const;
+    }
+  }
   download(blob, filename);
   return "downloaded" as const;
 }
