@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Ornament } from "@/components/silk";
 import type { Affirmation } from "@/data/affirmations";
-import { prettyDate, todayKey } from "@/lib/dates";
+import { prettyDate } from "@/lib/dates";
+import { useTodayKey } from "@/hooks/use-today";
 import { downloadShareCard, saveWallpaper } from "@/lib/share-card";
 
 
@@ -19,6 +20,10 @@ export function AffirmationCard({
   canFavorite,
   onToggleFavorite,
 }: Props) {
+  const todayValue = useTodayKey();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const today = mounted ? todayValue : null;
   const [sharing, setSharing] = useState(false);
   const [wallpapering, setWallpapering] = useState(false);
 
@@ -58,8 +63,8 @@ export function AffirmationCard({
   return (
     <div className="flex w-full flex-1 flex-col items-center">
       <div className="animate-silk space-y-2 text-center">
-        <span className="block text-[10px] font-medium uppercase tracking-[0.3em] text-gold/80">
-          {prettyDate(todayKey())}
+        <span className="block min-h-[1em] text-[10px] font-medium uppercase tracking-[0.3em] text-gold/80">
+          {today ? prettyDate(today) : ""}
         </span>
         <span className="block text-[10px] font-medium uppercase tracking-[0.3em] text-gold/60">
           {entry.category}

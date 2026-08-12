@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 import { BreathRitual } from "@/components/breath-ritual";
+import { GuidedAudioCollection } from "@/components/guided-audio-collection";
 import { PageShell, SectionHeading, SignInPrompt } from "@/components/page-shell";
 import { useAuth } from "@/hooks/useAuth";
 import { useLogGrowth } from "@/lib/growth";
@@ -92,6 +93,10 @@ function RitualsPage() {
               “{entry.affirmation}”
             </p>
             <p className="text-sm leading-relaxed text-ivory/70">{entry.action}</p>
+          </section>
+
+          <section className="border-t border-gold/20 pt-8">
+            <GuidedAudioCollection />
           </section>
 
           <section className="space-y-3 border-t border-gold/20 pt-8">

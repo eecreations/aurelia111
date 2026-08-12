@@ -12,7 +12,7 @@ import {
 } from "@/lib/custom-affirmations";
 import { currentJourneyDay } from "@/lib/journey";
 import { FOCUS_OPTIONS } from "@/lib/preferences";
-import { downloadShareCard, saveWallpaper } from "@/lib/share-card";
+import { downloadShareCard, downloadSquareCard, saveWallpaper, shareSocialCard } from "@/lib/share-card";
 import { useProfile } from "@/lib/user-data";
 
 export const Route = createFileRoute("/studio")({
@@ -53,7 +53,7 @@ function StudioPage() {
   const [reflection, setReflection] = useState("");
   const [action, setAction] = useState("");
   const [selected, setSelected] = useState<string>("");
-  const [rendering, setRendering] = useState<null | "card" | "wallpaper">(null);
+  const [rendering, setRendering] = useState<null | "card" | "square" | "share" | "wallpaper">(null);
 
   const day = currentJourneyDay(profile?.journey_start);
   const libraryToday = affirmations[(day - 1) % affirmations.length]!;
@@ -85,7 +85,7 @@ function StudioPage() {
     );
   };
 
-  const render = async (kind: "card" | "wallpaper") => {
+  const render = async (kind: "card" | "square" | "share" | "wallpaper") => {
     setRendering(kind);
     try {
       const input = {
@@ -97,7 +97,13 @@ function StudioPage() {
       };
       if (kind === "card") {
         await downloadShareCard(input);
-        toast.success("Card saved.");
+        toast.success("Story card saved.");
+      } else if (kind === "square") {
+        await downloadSquareCard(input);
+        toast.success("Square card saved.");
+      } else if (kind === "share") {
+        const result = await shareSocialCard(input, "story");
+        if (result !== "cancelled") toast.success(result === "shared" ? "Shared." : "Story card saved.");
       } else {
         const result = await saveWallpaper(input);
         toast.success(
@@ -306,14 +312,11 @@ function StudioPage() {
             >
               {rendering === "wallpaper" ? "Rendering" : "Save lock screen"}
             </button>
-            <button
-              type="button"
-              onClick={() => void render("card")}
-              disabled={rendering !== null}
-              className="min-h-12 w-full cursor-pointer rounded-sm border border-gold/30 text-[11px] font-semibold uppercase tracking-[0.22em] text-gold transition-colors hover:bg-gold/10 disabled:opacity-50"
-            >
-              {rendering === "card" ? "Rendering" : "Save share card"}
-            </button>
+            <button type="button" onClick={() => void render("share")} disabled={rendering !== null} className="min-h-12 w-full cursor-pointer rounded-sm border border-gold/40 bg-gold/5 text-[11px] font-semibold uppercase tracking-[0.22em] text-gold transition-colors hover:bg-gold/10 disabled:opacity-50">{rendering === "share" ? "Opening share sheet" : "Share to social"}</button>
+            <div className="grid grid-cols-2 gap-3">
+              <button type="button" onClick={() => void render("card")} disabled={rendering !== null} className="min-h-12 cursor-pointer rounded-sm border border-gold/30 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold transition-colors hover:bg-gold/10 disabled:opacity-50">{rendering === "card" ? "Rendering" : "Story 9:16"}</button>
+              <button type="button" onClick={() => void render("square")} disabled={rendering !== null} className="min-h-12 cursor-pointer rounded-sm border border-gold/30 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold transition-colors hover:bg-gold/10 disabled:opacity-50">{rendering === "square" ? "Rendering" : "Square 1:1"}</button>
+            </div>
           </div>
         </div>
       )}
